@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*"
+           Name="Lan History Manager"
+           Language="1033"
+           Version="0.5.0.0"
+           Manufacturer="Jump for Joy Software"
+           UpgradeCode="EB2D1FB0-A72E-466C-B12D-BCF84277E2DA">
+    
+    <Package InstallerVersion="500"
+             Compressed="yes"
+             InstallScope="perMachine"
+             Manufacturer="Jump for Joy Software"
+             Description="Installs a tool for managing Windows File History backups to network shares"
+             Comments="(C) 2017 Mark A. Olbert all rights reserved"/>
+
+    <MediaTemplate EmbedCab="yes"/>
+
+    <Directory Id="TARGETDIR"
+               Name="SourceDir">
+      
+      <Directory Id="ProgramFiles64Folder">
+        
+        <Directory Id="INSTALLDIR"
+                   Name="LanHistory">
+        </Directory>
+
+        <Directory Id="ProgramMenuFolder">
+          <Directory Id="MyShortcutsDir"
+                     Name="Jump for Joy"/>
+        </Directory>
+        
+      </Directory>
+    
+    </Directory>
+
+    <DirectoryRef Id="MyShortcutsDir">
+      <Component Id="CMP_Shortcuts"
+                 Guid="*">
+        
+        <Shortcut Id="AppStartMenuShortcut"
+                  Name="LanHistory"
+                  Description="launches LanHistory"
+                  Target="[INSTALLDIR]LanHistory.exe" />
+
+        <Shortcut Id="DocumentationStartMenuShortcut"
+                  Name="Lan History Documentation"
+                  Description="brief explanation of using LanHistory"
+                  Target="[INSTALLDIR]Doc.txt" />
+        
+        <Shortcut Id="UninstallShortcut"
+                  Name="Uninstall LanHistory"
+                  Description="Uninstalls LanHistory and all of its components"
+                  Target="[System64Folder]msiexec.exe"
+                  Arguments="/s [ProductCode]" />
+
+        <RemoveFolder Id="RemoveMyShortcutsDir"
+                      On="uninstall" />
+
+        <RegistryValue Root="HKCU"
+                       Key="Software\JumpForJoy\LanHistory"
+                       Name="installed"
+                       Type="integer"
+                       Value="1"
+                       KeyPath="yes" />
+
+      </Component>
+    </DirectoryRef>
+    
+    <Feature Id="MainProduct"
+             Title="Full install"
+             Level="1">
+      <ComponentGroupRef Id="LHFilesGroup"/>
+      <ComponentRef Id="CMP_Shortcuts"/>
+    </Feature>
+  </Product>
+</Wix>
