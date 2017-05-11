@@ -24,6 +24,7 @@
   <ItemGroup>
     <Compile Include="components.wxs" />
     <Compile Include="LanHistory.wxs" />
+    <Compile Include="WixUI_Custom.wxs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LanHistory\LanHistory.csproj">
