@@ -14,11 +14,6 @@
              Description="Installs a tool for managing Windows File History backups to network shares"
              Comments="(C) 2017 Mark A. Olbert all rights reserved"/>
     
-    <UIRef Id="WixUI_Custom"/>
-
-    <WixVariable Id="WixUILicenseRtf" Value="license.rtf"/>
-    <WixVariable Id="WixUIDialogBmp" Value="J4JInstallerBackground.bmp"/>
-    
     <MediaTemplate EmbedCab="yes"/>
 
     <Directory Id="TARGETDIR"

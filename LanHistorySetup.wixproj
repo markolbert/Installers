@@ -24,7 +24,6 @@
   <ItemGroup>
     <Compile Include="components.wxs" />
     <Compile Include="LanHistory.wxs" />
-    <Compile Include="WixUI_Custom.wxs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LanHistory\LanHistory.csproj">
@@ -35,16 +34,6 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="J4JInstallerBackground.bmp" />
-    <Content Include="license.rtf" />
-  </ItemGroup>
-  <ItemGroup>
-    <WixExtension Include="WixUIExtension">
-      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
-      <Name>WixUIExtension</Name>
-    </WixExtension>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
