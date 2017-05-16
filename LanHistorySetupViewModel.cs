@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 using Olbert.Wix;
 using Olbert.Wix.buttons;
 using Olbert.Wix.panels;
+using Olbert.Wix.viewmodels;
 using Olbert.Wix.ViewModels;
 
 namespace Olbert.LanHistorySetupUI
 {
-    public class LanHistorySetupViewModelAutofac : WixAutofacModule<LanHistorySetupViewModel>
-    {
-    }
-
     public class LanHistorySetupViewModel : WixViewModel
     {
         private enum Stage
@@ -36,7 +33,10 @@ namespace Olbert.LanHistorySetupUI
 
             var vm = new TextPanelViewModel { Text = _intro };
 
-            CurrentButtons = new WixStandardButtons() { DataContext = vm.GetButtonsViewModel() };
+            var btnVM = (StandardButtonsViewModel) vm.GetButtonsViewModel();
+            btnVM.PreviousViewModel.Hide();
+
+            CurrentButtons = new WixStandardButtons() { DataContext = btnVM };
             CurrentPanel = new WixTextScroller { DataContext = vm };
         }
 

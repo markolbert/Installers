@@ -11,6 +11,18 @@ namespace Olbert.LanHistorySetupUI
 {
     public class LanHistorySetupApp : WixApp
     {
+        private LanHistorySetupViewModel _viewModel;
+
+        protected override IWixViewModel WixViewModel
+        {
+            get
+            {
+                if( _viewModel == null ) _viewModel = new LanHistorySetupViewModel();
+
+                return _viewModel;
+            }
+        }
+
         protected override void OnAction( EngineActionEventArgs args )
         {
             base.OnAction( args );
