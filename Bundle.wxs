@@ -42,7 +42,7 @@
 			<!-- TODO: Define the list of chained packages. -->
 			<!-- <MsiPackage SourceFile="path\to\your.msi" /> -->
 
-      <PackageGroupRef Id="NetFx462Web"/>
+      <PackageGroupRef Id="NetFx462Web" />
       <MsiPackage SourceFile="$(var.LanHistorySetup.TargetDir)LanHistorySetup.msi" />
 		</Chain>
 	</Bundle>
