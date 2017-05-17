@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using Microsoft.Tools.WindowsInstallerXml.Bootstrapper;
 using Olbert.Wix;
 using Olbert.Wix.buttons;
 using Olbert.Wix.panels;
@@ -13,14 +15,6 @@ namespace Olbert.LanHistorySetupUI
 {
     public class LanHistorySetupViewModel : WixViewModel
     {
-        private enum Stage
-        {
-            Intro,
-            License,
-            Finish
-        }
-
-        private Stage _stage = Stage.Intro;
         private readonly string _license;
         private readonly string _intro;
 
@@ -31,52 +25,82 @@ namespace Olbert.LanHistorySetupUI
             _license = GetEmbeddedTextFile( "license.rtf" );
             _intro = GetEmbeddedTextFile( "intro.rtf" );
 
-            var vm = new TextPanelViewModel { Text = _intro };
+            CreatePanel( WixTextScroller.PanelID, "intro" );
 
-            var btnVM = (StandardButtonsViewModel) vm.GetButtonsViewModel();
-            btnVM.PreviousViewModel.Hide();
+            ( (TextPanelViewModel) Current.PanelViewModel ).Text = _intro;
+            ( (StandardButtonsViewModel) Current.ButtonsViewModel ).PreviousViewModel.Hide();
+        }
 
-            CurrentButtons = new WixStandardButtons() { DataContext = btnVM };
-            CurrentPanel = new WixTextScroller { DataContext = vm };
+        public override void OnInstallationComplete()
+        {
+            base.OnInstallationComplete();
+
+            var btnVM = (StandardButtonsViewModel) Current.ButtonsViewModel;
+
+            btnVM.CancelViewModel.Visibility = Visibility.Collapsed;
+            btnVM.NextViewModel.Visibility = Visibility.Visible;
         }
 
         protected override void MoveNext()
         {
-            switch( _stage )
+            switch( Current.Stage.ToLower() )
             {
-                case Stage.Intro:
-                    var introVM = new LicensePanelViewModel { Text = _license };
+                case "intro":
+                    CreatePanel( WixLicense.PanelID );
 
-                    CurrentButtons.DataContext = introVM.GetButtonsViewModel();
-                    CurrentPanel = new WixLicense { DataContext = introVM };
-
-                    _stage = Stage.License;
+                    ( (LicensePanelViewModel) Current.PanelViewModel ).Text = _license;
 
                     break;
 
-                case Stage.License:
-                    var finishVM = new FinishPanelViewModel();
+                case WixLicense.PanelID:
+                    // see if we have anything to detect
+                    if( BundleProperties.Prerequisites.Count == 0 ) DisplayProgressPanel();
+                    else
+                    {
+                        CreatePanel( WixDependencies.PanelID );
 
-                    CurrentButtons.DataContext = finishVM.GetButtonsViewModel();
-                    CurrentPanel = new WixLicense { DataContext = finishVM };
+                        ( (DependencyPanelViewModel) Current.PanelViewModel ).Dependencies =
+                            BundleProperties.Prerequisites;
 
-                    _stage = Stage.Finish;
+                        OnStartDetect();
+                    }
 
+                    break;
+
+                case WixDependencies.PanelID:
+                    DisplayProgressPanel();
+                    break;
+
+                case WixProgress.PanelID:
+                    CreatePanel( WixFinish.PanelID );
+
+                    ( (FinishPanelViewModel) Current.PanelViewModel ).Text = "All done!";
+
+                    break;
+
+                case WixFinish.PanelID:
+                    OnFinished();
                     break;
             }
         }
 
         protected override void MovePrevious()
         {
-            switch( _stage )
+            switch( Current.Stage.ToLower() )
             {
-                case Stage.License:
+                case WixLicense.PanelID:
                     break;
 
-                case Stage.Finish:
+                case WixFinish.PanelID:
                     break;
             }
         }
 
+        private void DisplayProgressPanel()
+        {
+            CreatePanel( WixProgress.PanelID );
+
+            OnAction( LaunchAction.Install );
+        }
     }
 }
