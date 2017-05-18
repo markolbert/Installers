@@ -13,7 +13,7 @@ using Olbert.Wix.ViewModels;
 
 namespace Olbert.LanHistorySetupUI
 {
-    public class LanHistorySetupViewModel : WixViewModel
+    public sealed class LanHistorySetupViewModel : WixViewModel
     {
         private readonly string _license;
         private readonly string _intro;
@@ -25,10 +25,30 @@ namespace Olbert.LanHistorySetupUI
             _license = GetEmbeddedTextFile( "license.rtf" );
             _intro = GetEmbeddedTextFile( "intro.rtf" );
 
-            CreatePanel( WixTextScroller.PanelID, "intro" );
+            Current.Stage = "start";
+            MoveNext();
+        }
 
-            ( (TextPanelViewModel) Current.PanelViewModel ).Text = _intro;
-            ( (StandardButtonsViewModel) Current.ButtonsViewModel ).PreviousViewModel.Hide();
+        public override bool IsActionSupported( LaunchAction action )
+        {
+            if( base.IsActionSupported( action ) ) return true;
+
+            switch( action )
+            {
+                case LaunchAction.Install:
+                case LaunchAction.Uninstall:
+                    return true;
+            }
+
+            return false;
+        }
+
+        public override void OnDetectionComplete()
+        {
+            base.OnDetectionComplete();
+
+            ( (StandardButtonsViewModel) Current.ButtonsViewModel ).NextViewModel.Show();
+            ((IntroPanelViewModel)Current.PanelViewModel).Detecting = Visibility.Collapsed;
         }
 
         public override void OnInstallationComplete()
@@ -45,7 +65,20 @@ namespace Olbert.LanHistorySetupUI
         {
             switch( Current.Stage.ToLower() )
             {
-                case "intro":
+                case "start":
+                    CreatePanel(WixIntro.PanelID);
+
+                    ((IntroPanelViewModel)Current.PanelViewModel).Text = _intro;
+
+                    var btnVM = (StandardButtonsViewModel) Current.ButtonsViewModel;
+                    btnVM.PreviousViewModel.Hide();
+                    btnVM.NextViewModel.Hide();
+
+                    OnStartDetect();
+
+                    break;
+
+                case WixIntro.PanelID:
                     CreatePanel( WixLicense.PanelID );
 
                     ( (LicensePanelViewModel) Current.PanelViewModel ).Text = _license;
@@ -61,8 +94,6 @@ namespace Olbert.LanHistorySetupUI
 
                         ( (DependencyPanelViewModel) Current.PanelViewModel ).Dependencies =
                             BundleProperties.Prerequisites;
-
-                        OnStartDetect();
                     }
 
                     break;
