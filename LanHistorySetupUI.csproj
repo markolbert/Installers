@@ -53,6 +53,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.1\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -103,10 +106,21 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\j4jUI\j4jUI.csproj">
+      <Project>{a510a9cd-e6dc-40e1-b7da-2969448691bb}</Project>
+      <Name>j4jUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WixUI\WixUI.csproj">
       <Project>{9ea26e02-1396-49c1-baf4-b651d72ecdb5}</Project>
       <Name>WixUI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>copy C:\Programming\LanHistory\J4JResources\bin\$(Configuration)\Olbert.JumpForJoy.DefaultResources.* $(TargetDir)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

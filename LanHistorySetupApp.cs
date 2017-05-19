@@ -13,51 +13,44 @@ namespace Olbert.LanHistorySetupUI
     {
         private LanHistorySetupViewModel _viewModel;
 
-        protected override IWixViewModel WixViewModel
+        protected override IWixViewModel WixViewModel => _viewModel ?? ( _viewModel = new LanHistorySetupViewModel( this ) );
+
+        public override (bool, string) ExecuteAction( LaunchAction action )
         {
-            get
-            {
-                if( _viewModel == null ) _viewModel = new LanHistorySetupViewModel();
+            bool okay = false;
+            string mesg = null;
 
-                return _viewModel;
-            }
-        }
-
-        protected override void OnAction( EngineActionEventArgs args )
-        {
-            base.OnAction( args );
-            if( args == null ) return;
-
-            switch( args.Action )
+            switch( action )
             {
                 case LaunchAction.Install:
-                    if( WixViewModel.InstallState == InstallState.NotPresent )
+                    if (WixViewModel.InstallState == InstallState.NotPresent)
                     {
-                        args.Processed = true;
-
-                        Engine.Plan( LaunchAction.Install );
+                        okay = true;
+                        Engine.Plan(LaunchAction.Install);
                     }
-                    else args.Message = "The software is already installed";
+                    else mesg = "The software is already installed";
 
                     break;
 
                 case LaunchAction.Uninstall:
-                    if( WixViewModel.InstallState == InstallState.Present )
+                    if (WixViewModel.InstallState == InstallState.Present)
                     {
-                        args.Processed = true;
+                        okay = true;
 
-                        Engine.Plan( LaunchAction.Uninstall );
+                        Engine.Plan(LaunchAction.Uninstall);
                     }
-                    else args.Message = "The software is not installed";
+                    else mesg = "The software is not installed";
 
                     break;
 
                 default:
-                    args.Processed = false;
-                    args.Message = $"{args.Action} not implemented by {nameof(LanHistorySetupApp)}";
+                    mesg = $"{action} not implemented by {nameof(LanHistorySetupApp)}";
 
                     break;
             }
+
+            return (okay, mesg);
         }
+
     }
 }

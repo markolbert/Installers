@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Tools.WindowsInstallerXml.Bootstrapper;
+using Olbert.JumpForJoy.WPF;
 using Olbert.Wix;
 using Olbert.Wix.buttons;
 using Olbert.Wix.panels;
@@ -18,7 +19,8 @@ namespace Olbert.LanHistorySetupUI
         private readonly string _license;
         private readonly string _intro;
 
-        public LanHistorySetupViewModel()
+        public LanHistorySetupViewModel( IWixApp wixApp )
+            : base( wixApp )
         {
             WindowTitle = "LanHistory Installer";
 
@@ -29,19 +31,8 @@ namespace Olbert.LanHistorySetupUI
             MoveNext();
         }
 
-        public override bool IsActionSupported( LaunchAction action )
-        {
-            if( base.IsActionSupported( action ) ) return true;
-
-            switch( action )
-            {
-                case LaunchAction.Install:
-                case LaunchAction.Uninstall:
-                    return true;
-            }
-
-            return false;
-        }
+        public override IEnumerable<LaunchAction> SupportedActions { get; } = new LaunchAction[]
+            { LaunchAction.Install, LaunchAction.Uninstall };
 
         public override void OnDetectionComplete()
         {
@@ -74,15 +65,19 @@ namespace Olbert.LanHistorySetupUI
                     btnVM.PreviousViewModel.Hide();
                     btnVM.NextViewModel.Hide();
 
-                    OnStartDetect();
+                    WixApp.StartDetect();
 
                     break;
 
                 case WixIntro.PanelID:
-                    CreatePanel( WixLicense.PanelID );
+                    // if no action was specified, get one
+                    if( LaunchAction == LaunchAction.Unknown ) CreatePanel( "actions" );
+                    else DisplayLicensePanel();
 
-                    ( (LicensePanelViewModel) Current.PanelViewModel ).Text = _license;
+                    break;
 
+                case WixAction.PanelID:
+                    DisplayLicensePanel();
                     break;
 
                 case WixLicense.PanelID:
@@ -110,7 +105,7 @@ namespace Olbert.LanHistorySetupUI
                     break;
 
                 case WixFinish.PanelID:
-                    OnFinished();
+                    WixApp.Finish();
                     break;
             }
         }
@@ -131,7 +126,23 @@ namespace Olbert.LanHistorySetupUI
         {
             CreatePanel( WixProgress.PanelID );
 
-            OnAction( LaunchAction.Install );
+            (bool okay, string mesg ) = WixApp.ExecuteAction( LaunchAction.Install );
+
+            if( !okay )
+            {
+                new J4JMessageBox().Title( "Problem Executing Action" )
+                    .Message( mesg )
+                    .ButtonVisibility( true, false, false )
+                    .ButtonText( "Okay" )
+                    .ShowMessageBox();
+            }
+        }
+
+        private void DisplayLicensePanel()
+        {
+            CreatePanel(WixLicense.PanelID);
+
+            ((LicensePanelViewModel)Current.PanelViewModel).Text = _license;
         }
     }
 }
