@@ -57,15 +57,23 @@ namespace Olbert.LanHistorySetupUI
             switch( Current.Stage.ToLower() )
             {
                 case "start":
-                    CreatePanel(WixIntro.PanelID);
+                    var curStage = LaunchAction == LaunchAction.Install ? null : "uninstall";
+                    var introText = LaunchAction == LaunchAction.Install ? _intro : "Thanx for trying Lan History Manager";
 
-                    ((IntroPanelViewModel)Current.PanelViewModel).Text = _intro;
+                    CreatePanel(WixIntro.PanelID, curStage);
 
-                    var btnVM = (StandardButtonsViewModel) Current.ButtonsViewModel;
+                    ((IntroPanelViewModel)Current.PanelViewModel).Text = introText;
+
+                    var btnVM = (StandardButtonsViewModel)Current.ButtonsViewModel;
                     btnVM.PreviousViewModel.Hide();
                     btnVM.NextViewModel.Hide();
 
                     WixApp.StartDetect();
+
+                    break;
+
+                case "uninstall":
+                    DisplayExecutionProgress();
 
                     break;
 
@@ -82,7 +90,7 @@ namespace Olbert.LanHistorySetupUI
 
                 case WixLicense.PanelID:
                     // see if we have anything to detect
-                    if( BundleProperties.Prerequisites.Count == 0 ) DisplayProgressPanel();
+                    if( BundleProperties.Prerequisites.Count == 0 ) DisplayExecutionProgress();
                     else
                     {
                         CreatePanel( WixDependencies.PanelID );
@@ -94,7 +102,7 @@ namespace Olbert.LanHistorySetupUI
                     break;
 
                 case WixDependencies.PanelID:
-                    DisplayProgressPanel();
+                    DisplayExecutionProgress();
                     break;
 
                 case WixProgress.PanelID:
@@ -122,19 +130,21 @@ namespace Olbert.LanHistorySetupUI
             }
         }
 
-        private void DisplayProgressPanel()
+        private void DisplayExecutionProgress()
         {
-            CreatePanel( WixProgress.PanelID );
+            (bool okay, string mesg) = WixApp.ExecuteAction( LaunchAction );
 
-            (bool okay, string mesg ) = WixApp.ExecuteAction( LaunchAction.Install );
-
-            if( !okay )
+            if( okay ) CreatePanel( WixProgress.PanelID );
+            else
             {
-                new J4JMessageBox().Title( "Problem Executing Action" )
-                    .Message( mesg )
-                    .ButtonVisibility( true, false, false )
-                    .ButtonText( "Okay" )
-                    .ShowMessageBox();
+                CreatePanel( WixTextScroller.PanelID, WixFinish.PanelID );
+
+                ( (TextPanelViewModel) Current.PanelViewModel ).Text = mesg;
+
+                var btnVM = (StandardButtonsViewModel) Current.ButtonsViewModel;
+                btnVM.CancelViewModel.Visibility = Visibility.Collapsed;
+                btnVM.PreviousViewModel.Visibility = Visibility.Collapsed;
+                btnVM.NextViewModel.Text = "Finish";
             }
         }
 
