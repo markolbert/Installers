@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Bundle Name="LanHistoryBootstrapper" 
+	<Bundle Name="LanHistory Manager" 
           Version="0.5.0.0" 
           Manufacturer="Jump for Joy Software" 
           UpgradeCode="1db721ec-d675-4e60-a55b-d134497a5a35">
