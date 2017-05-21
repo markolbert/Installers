@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <Product Id="*"
            Name="Lan History Manager"
            Language="1033"
@@ -40,13 +41,18 @@
         
         <Shortcut Id="AppStartMenuShortcut"
                   Name="LanHistory"
-                  Description="launches LanHistory"
+                  Description="launch LanHistory"
                   Target="[INSTALLDIR]LanHistory.exe" />
 
-        <Shortcut Id="DocumentationStartMenuShortcut"
-                  Name="Lan History Documentation"
-                  Description="brief explanation of using LanHistory"
-                  Target="[INSTALLDIR]Doc.txt" />
+        <Shortcut Id="GettingStartedShortcut"
+                  Name="Getting Started"
+                  Description="brief explanation on how to use LanHistory"
+                  Target="[INSTALLDIR]Doc.rtf" />
+        
+        <util:InternetShortcut Id="OnlineDocumentationShortcut"
+                               Name="Online Help"
+                               Target="http://jumpforjoysoftware.com/lanhistory/help"
+                               Type="url"/>
         
         <Shortcut Id="UninstallShortcut"
                   Name="Uninstall LanHistory"
