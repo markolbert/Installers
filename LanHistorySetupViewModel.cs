@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Tools.WindowsInstallerXml.Bootstrapper;
+using Microsoft.Win32;
 using Olbert.JumpForJoy.WPF;
 using Olbert.Wix;
 using Olbert.Wix.buttons;
@@ -73,6 +75,14 @@ namespace Olbert.LanHistorySetupUI
                     break;
 
                 case "uninstall":
+                    if( LaunchAction == LaunchAction.Uninstall )
+                    {
+                        foreach( Process lhProc in Process.GetProcessesByName( "LanHistory" ) )
+                        {
+                            lhProc.Kill();
+                        }
+                    }
+
                     DisplayExecutionProgress();
 
                     break;
@@ -108,12 +118,49 @@ namespace Olbert.LanHistorySetupUI
                 case WixProgress.PanelID:
                     CreatePanel( WixFinish.PanelID );
 
-                    ( (FinishPanelViewModel) Current.PanelViewModel ).Text = "All done!";
+                    var finishVM = (FinishPanelViewModel) Current.PanelViewModel;
+
+                    finishVM.Text = "All done!";
+
+                    if( LaunchAction == LaunchAction.Install )
+                    {
+                        finishVM.ShowHelpVisibility = Visibility.Visible;
+                        finishVM.LaunchAppVisibility = Visibility.Visible;
+                    }
 
                     break;
 
                 case WixFinish.PanelID:
+                    var finishVM2 = (FinishPanelViewModel) Current.PanelViewModel;
+
+                    if( LaunchAction == LaunchAction.Install )
+                    {
+                        if( finishVM2.LaunchApp )
+                        {
+                            using( RegistryKey hklm = Environment.Is64BitOperatingSystem
+                                ? RegistryKey.OpenBaseKey( RegistryHive.LocalMachine, RegistryView.Registry64 )
+                                : RegistryKey.OpenBaseKey( RegistryHive.LocalMachine, RegistryView.Registry32 ) )
+                            {
+                                using( RegistryKey key =
+                                    hklm.OpenSubKey( @"SOFTWARE\Jump for Joy Software\Install Locations" ) )
+                                {
+                                    if( key != null )
+                                    {
+                                        var exePath = key.GetValue( "LanHistory" ) as string;
+                                        if( !String.IsNullOrEmpty( exePath ) )
+                                            Process.Start( new ProcessStartInfo( exePath ) );
+                                    }
+                                }
+                            }
+
+                        }
+
+                        if( finishVM2.ShowHelp )
+                            Process.Start( "http://www.JumpForJoySoftware.com/Lan-History-Manager" );
+                    }
+
                     WixApp.Finish();
+
                     break;
             }
         }
