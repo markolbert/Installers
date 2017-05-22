@@ -3,76 +3,76 @@
     <Fragment>
         <DirectoryRef Id="INSTALLDIR">
             <Component Id="cmp2231F21D8497DEED0BB8242105B00687" Guid="*">
-                <File Id="fil9069912085A62DB863C7138A83E29FF9" KeyPath="yes" Source="$(var.TargetDir)\Autofac.dll" />
+                <File Id="fil9069912085A62DB863C7138A83E29FF9" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\Autofac.dll" />
             </Component>
             <Component Id="cmp94F6CBD9E736C8D6D7580417AC49DFE2" Guid="*">
-                <File Id="fil87FAC068C7DEB64A91A31F2CFF26B9E5" KeyPath="yes" Source="$(var.TargetDir)\Autofac.Extras.CommonServiceLocator.dll" />
+                <File Id="fil87FAC068C7DEB64A91A31F2CFF26B9E5" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\Autofac.Extras.CommonServiceLocator.dll" />
             </Component>
             <Component Id="cmp488D27FD7F12CC5B0CA2DA2EA3B41D0D" Guid="*">
-                <File Id="fil185ABF006E89BA8A4D51B571C8563487" KeyPath="yes" Source="$(var.TargetDir)\GalaSoft.MvvmLight.dll" />
+                <File Id="fil185ABF006E89BA8A4D51B571C8563487" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\GalaSoft.MvvmLight.dll" />
             </Component>
             <Component Id="cmp7DB90804D3EED1D9CFD3C64FFB5E4115" Guid="*">
-                <File Id="fil767D16365A57A31EFB10B16A311C4A96" KeyPath="yes" Source="$(var.TargetDir)\GalaSoft.MvvmLight.Extras.dll" />
+                <File Id="fil767D16365A57A31EFB10B16A311C4A96" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\GalaSoft.MvvmLight.Extras.dll" />
             </Component>
             <Component Id="cmp5B1CB9670A427F5E3F2553830607FC0D" Guid="*">
-                <File Id="fil3D52221AD70477F85AC254E167A7BD0B" KeyPath="yes" Source="$(var.TargetDir)\GalaSoft.MvvmLight.Platform.dll" />
+                <File Id="fil3D52221AD70477F85AC254E167A7BD0B" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\GalaSoft.MvvmLight.Platform.dll" />
             </Component>
             <Component Id="cmpA263D385FC755CB114F605F6C820CA54" Guid="*">
-                <File Id="filCE3F820DD20BE0855DEFCE5B9414B87D" KeyPath="yes" Source="$(var.TargetDir)\Hardcodet.Wpf.TaskbarNotification.dll" />
+                <File Id="filCE3F820DD20BE0855DEFCE5B9414B87D" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\Hardcodet.Wpf.TaskbarNotification.dll" />
             </Component>
             <Component Id="cmp28CFD3BA1BED9AE2917287832A509FA6" Guid="*">
-                <File Id="fil963E149107D3A343101A1D4127C4664F" KeyPath="yes" Source="$(var.TargetDir)\LanHistory.exe" />
+                <File Id="fil963E149107D3A343101A1D4127C4664F" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\LanHistory.exe" />
             </Component>
             <Component Id="cmp8239B8EDFD3766E78EB185C7833DE4ED" Guid="*">
-                <File Id="fil57CFD043EAABDB250D640A8C1CB84F0E" KeyPath="yes" Source="$(var.TargetDir)\LanHistory.exe.config" />
+                <File Id="fil57CFD043EAABDB250D640A8C1CB84F0E" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\LanHistory.exe.config" />
             </Component>
             <Component Id="cmp5453591BC9AD73682213C98016A51263" Guid="*">
-                <File Id="fil2A385E048D5E5C20938E8688E69EFA27" KeyPath="yes" Source="$(var.TargetDir)\MaterialDesignColors.dll" />
+                <File Id="fil2A385E048D5E5C20938E8688E69EFA27" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\MaterialDesignColors.dll" />
             </Component>
             <Component Id="cmpEA66FBC88E556605D236F0B557FF0F0C" Guid="*">
-                <File Id="fil91D96AFFC5F6810AB0FFD8FB7D0D7C60" KeyPath="yes" Source="$(var.TargetDir)\MaterialDesignThemes.Wpf.dll" />
+                <File Id="fil91D96AFFC5F6810AB0FFD8FB7D0D7C60" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\MaterialDesignThemes.Wpf.dll" />
             </Component>
             <Component Id="cmpA29C1A7B5910FFC929AFBBFEC3EA8129" Guid="*">
-                <File Id="filD651C3A8020C9B880EB84E0C130BF5F3" KeyPath="yes" Source="$(var.TargetDir)\Microsoft.Practices.ServiceLocation.dll" />
+                <File Id="filD651C3A8020C9B880EB84E0C130BF5F3" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\Microsoft.Practices.ServiceLocation.dll" />
             </Component>
             <Component Id="cmp5E1727B2A931701A646B591175D6ECDD" Guid="*">
-                <File Id="fil1FF2637C44D1013B37447CE6C7B3D22B" KeyPath="yes" Source="$(var.TargetDir)\Olbert.JumpForJoy.UI.dll" />
+                <File Id="fil1FF2637C44D1013B37447CE6C7B3D22B" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\Olbert.JumpForJoy.UI.dll" />
             </Component>
             <Component Id="cmp5E1727B2A931701A646B591175D6ECXX" Guid="*">
-                <File Id="fil1FF2637C44D1013B37447CE6C7B3D22X" KeyPath="yes" Source="$(var.TargetDir)\Olbert.JumpForJoy.DefaultResources.dll" />
+                <File Id="fil1FF2637C44D1013B37447CE6C7B3D22X" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\Olbert.JumpForJoy.DefaultResources.dll" />
             </Component>
             <Component Id="cmp8CC470C61F3BBBAA47BB49923A27CC79" Guid="*">
-                <File Id="fil53A2D25ACF85F8FF0B7366F41890C01E" KeyPath="yes" Source="$(var.TargetDir)\Serilog.dll" />
+                <File Id="fil53A2D25ACF85F8FF0B7366F41890C01E" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\Serilog.dll" />
             </Component>
             <Component Id="cmp737CC2CAAC7E797B623A5067AD38E371" Guid="*">
-                <File Id="fil8018980022F37CE40D3CB69F440B69AB" KeyPath="yes" Source="$(var.TargetDir)\Serilog.Sinks.File.dll" />
+                <File Id="fil8018980022F37CE40D3CB69F440B69AB" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\Serilog.Sinks.File.dll" />
             </Component>
             <Component Id="cmp9580799528F6F1844EEA71BAEF129FB3" Guid="*">
-                <File Id="fil2EF42C35A5EA971F1DE759E149B5658C" KeyPath="yes" Source="$(var.TargetDir)\Serilog.Sinks.RollingFile.dll" />
+                <File Id="fil2EF42C35A5EA971F1DE759E149B5658C" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\Serilog.Sinks.RollingFile.dll" />
             </Component>
             <Component Id="cmp498ED734624FBCEF99C9D0E537397542" Guid="*">
-                <File Id="fil76D3DDC2D07004FE0598F4AA9DB38B50" KeyPath="yes" Source="$(var.TargetDir)\Serilog.Sinks.TextWriter.dll" />
+                <File Id="fil76D3DDC2D07004FE0598F4AA9DB38B50" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\Serilog.Sinks.TextWriter.dll" />
             </Component>
             <Component Id="cmp4FE4E61EC9791201921745B40643CBB8" Guid="*">
-                <File Id="fil6F11DE09547B0AE8405683CDB88F7FC4" KeyPath="yes" Source="$(var.TargetDir)\System.Windows.Interactivity.dll" />
+                <File Id="fil6F11DE09547B0AE8405683CDB88F7FC4" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\System.Windows.Interactivity.dll" />
             </Component>
             <Component Id="cmp7165B8BA93A80A0EA1B7728AD04D6E72" Guid="*">
-                <File Id="fil0F135695E925EFFCE422A78CD28F4C92" KeyPath="yes" Source="$(var.TargetDir)\Xceed.Wpf.AvalonDock.dll" />
+                <File Id="fil0F135695E925EFFCE422A78CD28F4C92" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\Xceed.Wpf.AvalonDock.dll" />
             </Component>
             <Component Id="cmpE2468C9865F90573476173F547848D40" Guid="*">
-                <File Id="fil283C54AA0CCA5A82032AD6F88F3D5D84" KeyPath="yes" Source="$(var.TargetDir)\Xceed.Wpf.AvalonDock.Themes.Aero.dll" />
+                <File Id="fil283C54AA0CCA5A82032AD6F88F3D5D84" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\Xceed.Wpf.AvalonDock.Themes.Aero.dll" />
             </Component>
             <Component Id="cmp25B7CDE65FC6F7EDFBADDCA69300789E" Guid="*">
-                <File Id="filB6214F7016ABD85F0A90650A1F105B9C" KeyPath="yes" Source="$(var.TargetDir)\Xceed.Wpf.AvalonDock.Themes.Metro.dll" />
+                <File Id="filB6214F7016ABD85F0A90650A1F105B9C" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\Xceed.Wpf.AvalonDock.Themes.Metro.dll" />
             </Component>
             <Component Id="cmp9A0FBE0E3FB55EEBB37903AC9A080A23" Guid="*">
-                <File Id="filBB96100CC38385FF7DB0DBFE799C5F23" KeyPath="yes" Source="$(var.TargetDir)\Xceed.Wpf.AvalonDock.Themes.VS2010.dll" />
+                <File Id="filBB96100CC38385FF7DB0DBFE799C5F23" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\Xceed.Wpf.AvalonDock.Themes.VS2010.dll" />
             </Component>
             <Component Id="cmp534258F1EDE5B85B801C883FD482C5BF" Guid="*">
-                <File Id="filC4372CECB2F7DDF1687CA4F28356586D" KeyPath="yes" Source="$(var.TargetDir)\Xceed.Wpf.DataGrid.dll" />
+                <File Id="filC4372CECB2F7DDF1687CA4F28356586D" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\Xceed.Wpf.DataGrid.dll" />
             </Component>
             <Component Id="cmp6DF273F8C8C1322EE403E364E1D04A16" Guid="*">
-                <File Id="fil4F8E845B9B0CB9B26B9D7BA0D7737124" KeyPath="yes" Source="$(var.TargetDir)\Xceed.Wpf.Toolkit.dll" />
+                <File Id="fil4F8E845B9B0CB9B26B9D7BA0D7737124" KeyPath="yes" Source="$(var.LanHistory.TargetDir)\Xceed.Wpf.Toolkit.dll" />
             </Component>
         </DirectoryRef>
     </Fragment>
@@ -90,6 +90,7 @@
             <ComponentRef Id="cmpEA66FBC88E556605D236F0B557FF0F0C" />
             <ComponentRef Id="cmpA29C1A7B5910FFC929AFBBFEC3EA8129" />
             <ComponentRef Id="cmp5E1727B2A931701A646B591175D6ECDD" />
+            <ComponentRef Id="cmp5E1727B2A931701A646B591175D6ECXX" />
             <ComponentRef Id="cmp8CC470C61F3BBBAA47BB49923A27CC79" />
             <ComponentRef Id="cmp737CC2CAAC7E797B623A5067AD38E371" />
             <ComponentRef Id="cmp9580799528F6F1844EEA71BAEF129FB3" />

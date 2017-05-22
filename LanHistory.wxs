@@ -17,41 +17,30 @@
     
     <MediaTemplate EmbedCab="yes"/>
 
-    <Directory Id="TARGETDIR"
-               Name="SourceDir">
-      
+    <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFiles64Folder">
-        
-        <Directory Id="INSTALLDIR"
-                   Name="LanHistory">
-        </Directory>
+
+        <Directory Id="INSTALLDIR" Name="LanHistory" />
 
         <Directory Id="ProgramMenuFolder">
-          <Directory Id="MyShortcutsDir"
-                     Name="Jump for Joy"/>
+          <Directory Id="MyShortcutsDir" Name="Jump for Joy"/>
         </Directory>
         
       </Directory>
-    
+      
     </Directory>
 
     <DirectoryRef Id="MyShortcutsDir">
-      <Component Id="CMP_Shortcuts"
-                 Guid="*">
+      <Component Id="CMP_Shortcuts" Guid="*">
         
         <Shortcut Id="AppStartMenuShortcut"
                   Name="LanHistory"
                   Description="launch LanHistory"
                   Target="[INSTALLDIR]LanHistory.exe" />
 
-        <Shortcut Id="GettingStartedShortcut"
-                  Name="Getting Started"
-                  Description="brief explanation on how to use LanHistory"
-                  Target="[INSTALLDIR]Doc.rtf" />
-        
         <util:InternetShortcut Id="OnlineDocumentationShortcut"
                                Name="Online Help"
-                               Target="http://jumpforjoysoftware.com/lanhistory/help"
+                               Target="http://jumpforjoysoftware.com/lan-history-manager"
                                Type="url"/>
         
         <Shortcut Id="UninstallShortcut"
@@ -71,13 +60,48 @@
                        KeyPath="yes" />
 
       </Component>
+
     </DirectoryRef>
-    
+
+    <ComponentGroup Id="RegistryComponents" Directory="INSTALLDIR">
+
+      <Component Id="CMP_RegistryInstallLoc" Guid="*">
+
+        <RegistryKey Root="HKLM" Key="Software\Jump for Joy Software\Install Locations">
+
+          <RegistryValue Id="LanHistoryInstallLoc"
+                         Name="LanHistory"
+                         Value="[INSTALLDIR]LanHistory.exe"
+                         Type="string"
+                         KeyPath="yes"/>
+        </RegistryKey>
+
+      </Component>
+
+      <Component Id="CMP_RegistryRunOnStartup" Guid="*">
+
+        <RegistryKey Root="HKCU" Key="Software\Microsoft\Windows\CurrentVersion\Run">
+
+          <RegistryValue Id="LanHistoryRunOnStartup"
+                         Name="LanHistory"
+                         Value="[INSTALLDIR]LanHistory.exe"
+                         Type="string"
+                         KeyPath="yes"/>
+        </RegistryKey>
+
+      </Component>
+
+    </ComponentGroup>
+
     <Feature Id="MainProduct"
              Title="Full install"
              Level="1">
+      
       <ComponentGroupRef Id="LHFilesGroup"/>
+      <ComponentGroupRef Id="RegistryComponents"/>
       <ComponentRef Id="CMP_Shortcuts"/>
+    
     </Feature>
+
   </Product>
 </Wix>
