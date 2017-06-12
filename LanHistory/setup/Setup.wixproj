@@ -23,8 +23,8 @@
     <CompilerAdditionalOptions>-arch x64</CompilerAdditionalOptions>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="components.wxs" />
-    <Compile Include="LanHistory.wxs" />
+    <Compile Include="lan-history.wxs" />
+    <Compile Include="Setup.wxs" />
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixUtilExtension">

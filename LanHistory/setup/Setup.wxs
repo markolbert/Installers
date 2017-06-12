@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
   <Product Id="*"
            Name="Lan History Manager"
            Language="1033"
@@ -98,6 +99,7 @@
              Level="1">
       
       <ComponentGroupRef Id="LHFilesGroup"/>
+      <!--<ComponentGroupRef Id="J4JResourcesFilesGroup"/>-->
       <ComponentGroupRef Id="RegistryComponents"/>
       <ComponentRef Id="CMP_Shortcuts"/>
     

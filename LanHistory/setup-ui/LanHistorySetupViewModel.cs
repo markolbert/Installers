@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Tools.WindowsInstallerXml.Bootstrapper;
 using Microsoft.Win32;
 using Olbert.JumpForJoy.WPF;
 using Olbert.Wix;
-using Olbert.Wix.buttons;
-using Olbert.Wix.panels;
-using Olbert.Wix.viewmodels;
+using Olbert.Wix.Panels;
 using Olbert.Wix.ViewModels;
 
 namespace Olbert.LanHistorySetupUI
@@ -20,6 +15,7 @@ namespace Olbert.LanHistorySetupUI
     {
         private readonly string _license;
         private readonly string _intro;
+        private bool _processRunning;
 
         public LanHistorySetupViewModel( IWixApp wixApp )
             : base( wixApp )
@@ -38,6 +34,31 @@ namespace Olbert.LanHistorySetupUI
 
         public override void OnDetectionComplete()
         {
+            if (BundleInstalled && LaunchAction != LaunchAction.Uninstall)
+            {
+                int response = -1;
+
+                try
+                {
+                    response = new J4JMessageBox().Title( "Installation Status" )
+                        .Message( "Lan History Manager is already installed. Do you want to uninstall it?" )
+                        .ButtonText( "Uninstall", null, "Cancel" )
+                        .ShowMessageBox();
+                }
+                catch( Exception e )
+                {
+                    
+                }
+
+                if (response == 0)
+                {
+                    LaunchAction = LaunchAction.Uninstall;
+                    Current.Stage = "start";
+                    MoveNext();
+                }
+                else WixApp.CancelInstallation();
+            }
+
             base.OnDetectionComplete();
 
             ( (StandardButtonsViewModel) Current.ButtonsViewModel ).NextViewModel.Show();
@@ -59,18 +80,53 @@ namespace Olbert.LanHistorySetupUI
             switch( Current.Stage.ToLower() )
             {
                 case "start":
-                    var curStage = LaunchAction == LaunchAction.Install ? null : "uninstall";
-                    var introText = LaunchAction == LaunchAction.Install ? _intro : "Thanx for trying Lan History Manager";
+                    switch( LaunchAction )
+                    {
+                        case LaunchAction.Install:
+                            _processRunning = IsProcessRunning( "LanHistory" );
 
-                    CreatePanel(WixIntro.PanelID, curStage);
+                            if( _processRunning )
+                            {
+                                CreatePanel( WixFinish.PanelID );
 
-                    ((IntroPanelViewModel)Current.PanelViewModel).Text = introText;
+                                ( (FinishPanelViewModel) Current.PanelViewModel ).Text =
+                                    "Lan History Manager is running. Please exit it and re-launch the installer.";
+                            }
+                            else
+                            {
+                                CreatePanel( WixIntro.PanelID );
 
-                    var btnVM = (StandardButtonsViewModel)Current.ButtonsViewModel;
+                                ( (IntroPanelViewModel) Current.PanelViewModel ).Text = _intro;
+                            }
+
+                            break;
+
+                        case LaunchAction.Uninstall:
+                            CreatePanel( WixIntro.PanelID, "uninstall" );
+
+                            ((IntroPanelViewModel)Current.PanelViewModel).Text = "Thanx for trying Lan History Manager";
+
+                            break;
+                    }
+
+
+                    var btnVM = (StandardButtonsViewModel) Current.ButtonsViewModel;
                     btnVM.PreviousViewModel.Hide();
-                    btnVM.NextViewModel.Hide();
 
-                    WixApp.StartDetect();
+                    switch( Current.Stage )
+                    {
+                        case WixFinish.PanelID:
+                            btnVM.NextViewModel.Text = "Exit";
+                            btnVM.CancelViewModel.Hide();
+
+                            break;
+
+                        default:
+                            btnVM.NextViewModel.Hide();
+                            WixApp.StartDetect();
+
+                            break;
+                    }
 
                     break;
 
@@ -133,7 +189,7 @@ namespace Olbert.LanHistorySetupUI
                 case WixFinish.PanelID:
                     var finishVM2 = (FinishPanelViewModel) Current.PanelViewModel;
 
-                    if( LaunchAction == LaunchAction.Install )
+                    if( LaunchAction == LaunchAction.Install && !_processRunning )
                     {
                         if( finishVM2.LaunchApp )
                         {

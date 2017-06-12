@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <!-- 
+  
+  Defines the Lan History Manager files that must be included in any installer in order
+  for the application to work
+  
+  -->
+  
+  <!-- define some variables; wix doesn't yet seem to understand target frameworks -->
+  <?define TgtFrameworkDir="\net47" ?>
+  <?define LHSourceDir="c:\Programming\LanHistory\LanHistory\bin\$(var.Configuration)$(var.TgtFrameworkDir)\" ?>
+  <?define J4JResDir="c:\Programming\JumpForJoyPrivate\J4JSmiling\bin\$(var.Configuration)\" ?>
+
+  <Fragment>
+    <DirectoryRef Id="INSTALLDIR">
+        <Component Id="cmp28CFD3BA1BED9AE2917287832A509FA6" Guid="*">
+            <File Id="fil963E149107D3A343101A1D4127C4664F" KeyPath="yes" Source="$(var.LHSourceDir)LanHistory.exe" />
+        </Component>
+        <Component Id="cmp8239B8EDFD3766E78EB185C7833DE4ED" Guid="*">
+            <File Id="fil57CFD043EAABDB250D640A8C1CB84F0E" KeyPath="yes" Source="$(var.LHSourceDir)LanHistory.exe.config" />
+        </Component>
+
+      <Component Id="cmp5E1727B2A931701A646B591175D6ECXX" Guid="*">
+        <File Id="fil1FF2637C44D1013B37447CE6C7B3D22X" KeyPath="yes" Source="$(var.J4JResDir)Olbert.J4JResources.dll" />
+      </Component>
+
+      <Component Id="cmpA263D385FC755CB114F605F6C820CA54" Guid="*">
+        <File Id="filCE3F820DD20BE0855DEFCE5B9414B87D" KeyPath="yes" Source="$(var.LHSourceDir)Hardcodet.Wpf.TaskbarNotification.dll" />
+      </Component>
+
+      <Component Id="cmp_autofac" Guid="*">
+        <File Id="file_autofac" KeyPath="yes" Source="$(var.LHSourceDir)Autofac.dll" />
+      </Component>
+      <Component Id="cmp_autofac_svclocator" Guid="*">
+        <File Id="file_autofac_svclocator" KeyPath="yes" Source="$(var.LHSourceDir)Autofac.Extras.CommonServiceLocator.dll" />
+      </Component>
+      <Component Id="cmpA29C1A7B5910FFC929AFBBFEC3EA8129" Guid="*">
+        <File Id="filD651C3A8020C9B880EB84E0C130BF5F3" KeyPath="yes" Source="$(var.LHSourceDir)Microsoft.Practices.ServiceLocation.dll" />
+      </Component>
+
+      <Component Id="cmp488D27FD7F12CC5B0CA2DA2EA3B41D0D" Guid="*">
+        <File Id="fil185ABF006E89BA8A4D51B571C8563487" KeyPath="yes" Source="$(var.LHSourceDir)GalaSoft.MvvmLight.dll" />
+      </Component>
+      <Component Id="cmp7DB90804D3EED1D9CFD3C64FFB5E4115" Guid="*">
+        <File Id="fil767D16365A57A31EFB10B16A311C4A96" KeyPath="yes" Source="$(var.LHSourceDir)GalaSoft.MvvmLight.Extras.dll" />
+      </Component>
+      <Component Id="cmp5B1CB9670A427F5E3F2553830607FC0D" Guid="*">
+        <File Id="fil3D52221AD70477F85AC254E167A7BD0B" KeyPath="yes" Source="$(var.LHSourceDir)GalaSoft.MvvmLight.Platform.dll" />
+      </Component>
+      <Component Id="cmp4FE4E61EC9791201921745B40643CBB8" Guid="*">
+        <File Id="fil6F11DE09547B0AE8405683CDB88F7FC4" KeyPath="yes" Source="$(var.LHSourceDir)System.Windows.Interactivity.dll" />
+      </Component>
+      
+      <Component Id="cmp5E1727B2A931701A646B591175D6ECDD" Guid="*">
+        <File Id="fil1FF2637C44D1013B37447CE6C7B3D22B" KeyPath="yes" Source="$(var.LHSourceDir)Olbert.JumpForJoy.UI.dll" />
+      </Component>
+      <Component Id="cmp_J4Jconv" Guid="*">
+        <File Id="fil_J4Jconv" KeyPath="yes" Source="$(var.LHSourceDir)Olbert.JumpForJoy.Wpf.Converters.dll" />
+      </Component>
+
+      <Component Id="cmp8CC470C61F3BBBAA47BB49923A27CC79" Guid="*">
+        <File Id="fil53A2D25ACF85F8FF0B7366F41890C01E" KeyPath="yes" Source="$(var.LHSourceDir)Serilog.dll" />
+      </Component>
+      <Component Id="cmp737CC2CAAC7E797B623A5067AD38E371" Guid="*">
+        <File Id="fil8018980022F37CE40D3CB69F440B69AB" KeyPath="yes" Source="$(var.LHSourceDir)Serilog.Sinks.File.dll" />
+      </Component>
+      <Component Id="cmp9580799528F6F1844EEA71BAEF129FB3" Guid="*">
+        <File Id="fil2EF42C35A5EA971F1DE759E149B5658C" KeyPath="yes" Source="$(var.LHSourceDir)Serilog.Sinks.RollingFile.dll" />
+      </Component>
+      
+      <Component Id="cmp7165B8BA93A80A0EA1B7728AD04D6E72" Guid="*">
+        <File Id="fil0F135695E925EFFCE422A78CD28F4C92" KeyPath="yes" Source="$(var.LHSourceDir)Xceed.Wpf.AvalonDock.dll" />
+      </Component>
+      <Component Id="cmpE2468C9865F90573476173F547848D40" Guid="*">
+        <File Id="fil283C54AA0CCA5A82032AD6F88F3D5D84" KeyPath="yes" Source="$(var.LHSourceDir)Xceed.Wpf.AvalonDock.Themes.Aero.dll" />
+      </Component>
+      <Component Id="cmp25B7CDE65FC6F7EDFBADDCA69300789E" Guid="*">
+        <File Id="filB6214F7016ABD85F0A90650A1F105B9C" KeyPath="yes" Source="$(var.LHSourceDir)Xceed.Wpf.AvalonDock.Themes.Metro.dll" />
+      </Component>
+      <Component Id="cmp9A0FBE0E3FB55EEBB37903AC9A080A23" Guid="*">
+        <File Id="filBB96100CC38385FF7DB0DBFE799C5F23" KeyPath="yes" Source="$(var.LHSourceDir)Xceed.Wpf.AvalonDock.Themes.VS2010.dll" />
+      </Component>
+      <Component Id="cmp534258F1EDE5B85B801C883FD482C5BF" Guid="*">
+        <File Id="filC4372CECB2F7DDF1687CA4F28356586D" KeyPath="yes" Source="$(var.LHSourceDir)Xceed.Wpf.DataGrid.dll" />
+      </Component>
+      <Component Id="cmp6DF273F8C8C1322EE403E364E1D04A16" Guid="*">
+        <File Id="fil4F8E845B9B0CB9B26B9D7BA0D7737124" KeyPath="yes" Source="$(var.LHSourceDir)Xceed.Wpf.Toolkit.dll" />
+      </Component>
+
+    </DirectoryRef>
+  </Fragment>
+  
+  <Fragment>
+    <ComponentGroup Id="LHFilesGroup">
+      
+      <ComponentRef Id="cmp28CFD3BA1BED9AE2917287832A509FA6" />
+      <ComponentRef Id="cmp8239B8EDFD3766E78EB185C7833DE4ED" />
+
+      <ComponentRef Id="cmp5E1727B2A931701A646B591175D6ECXX" />
+
+      <ComponentRef Id="cmpA263D385FC755CB114F605F6C820CA54" />
+
+      <ComponentRef Id="cmp_autofac" />
+      <ComponentRef Id="cmp_autofac_svclocator" />
+      <ComponentRef Id="cmpA29C1A7B5910FFC929AFBBFEC3EA8129" />
+
+      <ComponentRef Id="cmp488D27FD7F12CC5B0CA2DA2EA3B41D0D" />
+      <ComponentRef Id="cmp7DB90804D3EED1D9CFD3C64FFB5E4115" />
+      <ComponentRef Id="cmp5B1CB9670A427F5E3F2553830607FC0D" />
+      <ComponentRef Id="cmp4FE4E61EC9791201921745B40643CBB8" />
+      
+      <ComponentRef Id="cmp5E1727B2A931701A646B591175D6ECDD" />
+      <ComponentRef Id="cmp_J4Jconv" />
+
+      <ComponentRef Id="cmp8CC470C61F3BBBAA47BB49923A27CC79" />
+      <ComponentRef Id="cmp737CC2CAAC7E797B623A5067AD38E371" />
+      <ComponentRef Id="cmp9580799528F6F1844EEA71BAEF129FB3" />
+      
+      <ComponentRef Id="cmp7165B8BA93A80A0EA1B7728AD04D6E72" />
+      <ComponentRef Id="cmpE2468C9865F90573476173F547848D40" />
+      <ComponentRef Id="cmp25B7CDE65FC6F7EDFBADDCA69300789E" />
+      <ComponentRef Id="cmp9A0FBE0E3FB55EEBB37903AC9A080A23" />
+      <ComponentRef Id="cmp534258F1EDE5B85B801C883FD482C5BF" />
+      <ComponentRef Id="cmp6DF273F8C8C1322EE403E364E1D04A16" />
+    
+    </ComponentGroup>
+  </Fragment>
+
+</Wix>
