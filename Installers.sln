@@ -5,11 +5,11 @@ VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LanHistoryInstaller", "LanHistoryInstaller", "{5D554511-BF89-4C6F-B72B-63150847A769}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Setup", "LanHistory\setup\Setup.wixproj", "{78ABA882-1550-41B4-AFF7-FCEEC56F8FEF}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Setup", "LanHistoryInstaller\setup\Setup.wixproj", "{78ABA882-1550-41B4-AFF7-FCEEC56F8FEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetupUI", "LanHistory\setup-ui\SetupUI.csproj", "{6F7501E1-90E5-45C4-B76E-9DBAFDFA4E5A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetupUI", "LanHistoryInstaller\setup-ui\SetupUI.csproj", "{6F7501E1-90E5-45C4-B76E-9DBAFDFA4E5A}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "LanHistoryBootstrapper", "LanHistory\bootstrapper\LanHistoryBootstrapper.wixproj", "{1DB721EC-D675-4E60-A55B-D134497A5A35}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "LanHistoryBootstrapper", "LanHistoryInstaller\bootstrapper\LanHistoryBootstrapper.wixproj", "{1DB721EC-D675-4E60-A55B-D134497A5A35}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "subsidiary", "subsidiary", "{8E55E92B-9A2D-41E4-897D-AE821A416F81}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfConverters", "..\WPFUtilities\WpfConverters\WpfConverters.csproj", "{E40B98E8-59D2-4598-8C6B-7FEFF81562CD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LanHistory", "..\LanHistory\LanHistory\LanHistory.csproj", "{542956F2-B122-49E9-B4F8-6129E68C9CEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "J4JSmiling", "..\JumpForJoyPrivate\J4JSmiling\J4JSmiling.csproj", "{87EA6FFC-D5FD-482D-BD05-F49F22A4D710}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,14 @@ Global
 		{542956F2-B122-49E9-B4F8-6129E68C9CEC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{542956F2-B122-49E9-B4F8-6129E68C9CEC}.Release|x86.ActiveCfg = Release|Any CPU
 		{542956F2-B122-49E9-B4F8-6129E68C9CEC}.Release|x86.Build.0 = Release|Any CPU
+		{87EA6FFC-D5FD-482D-BD05-F49F22A4D710}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87EA6FFC-D5FD-482D-BD05-F49F22A4D710}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87EA6FFC-D5FD-482D-BD05-F49F22A4D710}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{87EA6FFC-D5FD-482D-BD05-F49F22A4D710}.Debug|x86.Build.0 = Debug|Any CPU
+		{87EA6FFC-D5FD-482D-BD05-F49F22A4D710}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87EA6FFC-D5FD-482D-BD05-F49F22A4D710}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87EA6FFC-D5FD-482D-BD05-F49F22A4D710}.Release|x86.ActiveCfg = Release|Any CPU
+		{87EA6FFC-D5FD-482D-BD05-F49F22A4D710}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,5 +103,6 @@ Global
 		{E58C6EB7-1FEE-480E-B71D-14A409C2856D} = {8E55E92B-9A2D-41E4-897D-AE821A416F81}
 		{E40B98E8-59D2-4598-8C6B-7FEFF81562CD} = {8E55E92B-9A2D-41E4-897D-AE821A416F81}
 		{542956F2-B122-49E9-B4F8-6129E68C9CEC} = {8E55E92B-9A2D-41E4-897D-AE821A416F81}
+		{87EA6FFC-D5FD-482D-BD05-F49F22A4D710} = {8E55E92B-9A2D-41E4-897D-AE821A416F81}
 	EndGlobalSection
 EndGlobal

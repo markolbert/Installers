@@ -8,7 +8,7 @@ namespace Olbert.LanHistorySetupUI
     {
         private LanHistorySetupViewModel _viewModel;
 
-        protected override IWixViewModel WixViewModel => _viewModel ?? ( _viewModel = new LanHistorySetupViewModel( this ) );
+        protected override IWixViewModel ViewModel => _viewModel ?? ( _viewModel = new LanHistorySetupViewModel( this ) );
 
         public override (bool, string) ExecuteAction( LaunchAction action )
         {
@@ -18,7 +18,7 @@ namespace Olbert.LanHistorySetupUI
             switch( action )
             {
                 case LaunchAction.Install:
-                    if (WixViewModel.InstallState == InstallState.NotPresent)
+                    if (ViewModel.InstallState == InstallState.NotPresent)
                     {
                         okay = true;
                         Engine.Plan(LaunchAction.Install);
@@ -28,7 +28,7 @@ namespace Olbert.LanHistorySetupUI
                     break;
 
                 case LaunchAction.Uninstall:
-                    if (WixViewModel.InstallState == InstallState.Present)
+                    if (ViewModel.InstallState == InstallState.Present)
                     {
                         okay = true;
 

@@ -34,32 +34,25 @@ namespace Olbert.LanHistorySetupUI
 
         public override void OnDetectionComplete()
         {
-            if (BundleInstalled && LaunchAction != LaunchAction.Uninstall)
+            base.OnDetectionComplete();
+
+            if ( BundleInstalled && LaunchAction != LaunchAction.Uninstall )
             {
-                int response = -1;
+                int response = WixApp.Dispatcher.Invoke<int>( () => new J4JMessageBox()
+                    .Title( "Installation Status" )
+                    .Message( "Lan History Manager is already installed. Do you want to uninstall it?" )
+                    .ButtonText( "Uninstall", null, "Cancel" )
+                    .ShowMessageBox() );
 
-                try
-                {
-                    response = new J4JMessageBox().Title( "Installation Status" )
-                        .Message( "Lan History Manager is already installed. Do you want to uninstall it?" )
-                        .ButtonText( "Uninstall", null, "Cancel" )
-                        .ShowMessageBox();
-                }
-                catch( Exception e )
-                {
-                    
-                }
-
-                if (response == 0)
+                if( response == 0 )
                 {
                     LaunchAction = LaunchAction.Uninstall;
                     Current.Stage = "start";
-                    MoveNext();
-                }
-                else WixApp.CancelInstallation();
-            }
 
-            base.OnDetectionComplete();
+                    WixApp.Dispatcher.Invoke( MoveNext );
+                }
+                else BootstrapperApp.CancelInstallation();
+            }
 
             ( (StandardButtonsViewModel) Current.ButtonsViewModel ).NextViewModel.Show();
             ((IntroPanelViewModel)Current.PanelViewModel).Detecting = Visibility.Collapsed;
@@ -123,7 +116,7 @@ namespace Olbert.LanHistorySetupUI
 
                         default:
                             btnVM.NextViewModel.Hide();
-                            WixApp.StartDetect();
+                            BootstrapperApp.StartDetect();
 
                             break;
                     }
@@ -215,7 +208,7 @@ namespace Olbert.LanHistorySetupUI
                             Process.Start( "http://www.JumpForJoySoftware.com/Lan-History-Manager" );
                     }
 
-                    WixApp.Finish();
+                    BootstrapperApp.Finish();
 
                     break;
             }
@@ -235,7 +228,7 @@ namespace Olbert.LanHistorySetupUI
 
         private void DisplayExecutionProgress()
         {
-            (bool okay, string mesg) = WixApp.ExecuteAction( LaunchAction );
+            (bool okay, string mesg) = BootstrapperApp.ExecuteAction( LaunchAction );
 
             if( okay ) CreatePanel( WixProgress.PanelID );
             else
