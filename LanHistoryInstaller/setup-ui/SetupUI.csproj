@@ -5,7 +5,7 @@
     <TargetFramework>net462</TargetFramework>
     <RootNamespace>Olbert.LanHistorySetupUI</RootNamespace>
     <AssemblyName>Olbert.LanHistorySetupUI</AssemblyName>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild Condition="'$(Configuration)' == 'Release'">True</GeneratePackageOnBuild>
     <Version>0.5.0</Version>
     <Authors>Mark A. Olbert</Authors>
     <Company>Jump for Joy Software</Company>
@@ -62,8 +62,9 @@
     </None>
   </ItemGroup>
 
+  <!-- removed 6/16/2017 because we're no longer using a local nuget package cache
   <Target Name="UpdateLocalNuget" AfterTargets="Pack">
     <Exec Command="powershell -File c:\Programming\Scripts\StoreNugetPackages.ps1 $(ProjectDir)\bin\$(Configuration)" />
   </Target>
-
+  -->
 </Project>
