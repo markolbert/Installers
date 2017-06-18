@@ -11,12 +11,20 @@ using Olbert.Wix.ViewModels;
 
 namespace Olbert.LanHistorySetupUI
 {
+    /// <summary>
+    /// Extends the base class to define an installer wizard for Lan History Manager
+    /// </summary>
     public sealed class LanHistorySetupViewModel : WixViewModel
     {
         private readonly string _license;
         private readonly string _intro;
         private bool _processRunning;
 
+        /// <summary>
+        /// Creates an instance of the view model linked to the provided Wix Bootstrapper application
+        /// </summary>
+        /// <param name="wixApp">the Wix Bootstrapper application which interfaces between the view model and
+        /// the Wix Bootstrapper engine</param>
         public LanHistorySetupViewModel( IWixApp wixApp )
             : base( wixApp )
         {
@@ -29,9 +37,23 @@ namespace Olbert.LanHistorySetupUI
             MoveNext();
         }
 
+        /// <summary>
+        /// Defines the Wix installation actions supported by this installer; only LaunchAction.Install and
+        /// LaunchAction.Uninstall are supported.
+        /// </summary>
         public override IEnumerable<LaunchAction> SupportedActions { get; } = new LaunchAction[]
             { LaunchAction.Install, LaunchAction.Uninstall };
 
+        /// <summary>
+        /// Overrides the base implementation so that, if Lan History Manager is already installed and the
+        /// installer is launched to install it again, the user is given the chance to uninstall Lan History
+        /// Manager instead.
+        /// 
+        /// Also updates the UI so that the user can click the Next button to move to the next step of the wizard.
+        /// 
+        /// This can happen if the installer is launched from the commandline, or by double-clicking the installer
+        /// through Windows File Explorer, because the default action is LaunchAction.Install.
+        /// </summary>
         public override void OnDetectionComplete()
         {
             base.OnDetectionComplete();
@@ -58,6 +80,10 @@ namespace Olbert.LanHistorySetupUI
             ((IntroPanelViewModel)Current.PanelViewModel).Detecting = Visibility.Collapsed;
         }
 
+        /// <summary>
+        /// Overrides the base implementation to hide/collapse the Cancel button, and show
+        /// the Next button.
+        /// </summary>
         public override void OnInstallationComplete()
         {
             base.OnInstallationComplete();
@@ -68,6 +94,10 @@ namespace Olbert.LanHistorySetupUI
             btnVM.NextViewModel.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// Creates the UserControls -- panel and button set -- for each stage of the
+        /// installer.
+        /// </summary>
         protected override void MoveNext()
         {
             switch( Current.Stage.ToLower() )
@@ -214,6 +244,9 @@ namespace Olbert.LanHistorySetupUI
             }
         }
 
+        /// <summary>
+        /// TODO: need to implement
+        /// </summary>
         protected override void MovePrevious()
         {
             switch( Current.Stage.ToLower() )
