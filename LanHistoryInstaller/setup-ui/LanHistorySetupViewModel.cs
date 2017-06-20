@@ -16,8 +16,11 @@ namespace Olbert.LanHistorySetupUI
     /// </summary>
     public sealed class LanHistorySetupViewModel : WixViewModel
     {
+        private const string UninstallIntroText = "Thanx for trying Lan History Manager";
+
         private readonly string _license;
         private readonly string _intro;
+        private LaunchAction _origAction;
         private bool _processRunning;
 
         /// <summary>
@@ -73,7 +76,7 @@ namespace Olbert.LanHistorySetupUI
 
                     WixApp.Dispatcher.Invoke( MoveNext );
                 }
-                else BootstrapperApp.CancelInstallation();
+                else WixApp.Dispatcher.InvokeShutdown();
             }
 
             ( (StandardButtonsViewModel) Current.ButtonsViewModel ).NextViewModel.Show();
@@ -95,14 +98,20 @@ namespace Olbert.LanHistorySetupUI
         }
 
         /// <summary>
-        /// Creates the UserControls -- panel and button set -- for each stage of the
-        /// installer.
+        /// Creates the UserControls -- panel and button set -- when user clicks Next.
         /// </summary>
         protected override void MoveNext()
         {
             switch( Current.Stage.ToLower() )
             {
                 case "start":
+                    // moving past start of wizard; the panel to display depends on whether 
+                    // we're installing or uninstalling
+
+                    // store the action we were launched with, so we can step forward 
+                    // and backwards through the wizard correctly
+                    _origAction = LaunchAction;
+
                     switch( LaunchAction )
                     {
                         case LaunchAction.Install:
@@ -114,71 +123,47 @@ namespace Olbert.LanHistorySetupUI
 
                                 ( (FinishPanelViewModel) Current.PanelViewModel ).Text =
                                     "Lan History Manager is running. Please exit it and re-launch the installer.";
-                            }
-                            else
-                            {
-                                CreatePanel( WixIntro.PanelID );
 
-                                ( (IntroPanelViewModel) Current.PanelViewModel ).Text = _intro;
+                                var btnVM = (StandardButtonsViewModel)Current.ButtonsViewModel;
+
+                                btnVM.PreviousViewModel.Hide();
+                                btnVM.NextViewModel.Text = "Exit";
+                                btnVM.CancelViewModel.Hide();
                             }
+                            else DisplayIntroPanel( _intro );
 
                             break;
 
                         case LaunchAction.Uninstall:
-                            CreatePanel( WixIntro.PanelID, "uninstall" );
-
-                            ((IntroPanelViewModel)Current.PanelViewModel).Text = "Thanx for trying Lan History Manager";
-
-                            break;
-                    }
-
-
-                    var btnVM = (StandardButtonsViewModel) Current.ButtonsViewModel;
-                    btnVM.PreviousViewModel.Hide();
-
-                    switch( Current.Stage )
-                    {
-                        case WixFinish.PanelID:
-                            btnVM.NextViewModel.Text = "Exit";
-                            btnVM.CancelViewModel.Hide();
-
-                            break;
-
-                        default:
-                            btnVM.NextViewModel.Hide();
-                            BootstrapperApp.StartDetect();
-
+                            DisplayIntroPanel( UninstallIntroText, "uninstall" );
                             break;
                     }
 
                     break;
 
                 case "uninstall":
-                    if( LaunchAction == LaunchAction.Uninstall )
-                    {
-                        foreach( Process lhProc in Process.GetProcessesByName( "LanHistory" ) )
-                        {
-                            lhProc.Kill();
-                        }
-                    }
-
+                    // moving past the uninstall panel; display progress of uninstall
                     DisplayExecutionProgress();
 
                     break;
 
                 case WixIntro.PanelID:
-                    // if no action was specified, get one
-                    if( LaunchAction == LaunchAction.Unknown ) CreatePanel( "actions" );
+                    // moving past intro panel; either get the action to perform if we weren't
+                    // launched with either install or uninstall, or display the license panel
+                    if( _origAction == LaunchAction.Unknown ) CreatePanel( WixAction.PanelID );
                     else DisplayLicensePanel();
 
                     break;
 
                 case WixAction.PanelID:
+                    // moving past the action selection panel; display license panel
                     DisplayLicensePanel();
                     break;
 
                 case WixLicense.PanelID:
-                    // see if we have anything to detect
+                    // moving past license panel; if there are no prerequisites, start
+                    // installation and display progress.
+                    // if there are prerequisites, display them
                     if( BundleProperties.Prerequisites.Count == 0 ) DisplayExecutionProgress();
                     else
                     {
@@ -191,10 +176,14 @@ namespace Olbert.LanHistorySetupUI
                     break;
 
                 case WixDependencies.PanelID:
+                    // moving past the dependencies/prerequisites panel; start installation
+                    // and display progress
                     DisplayExecutionProgress();
                     break;
 
                 case WixProgress.PanelID:
+                    // moving past the progress of installation/uninstallation panel; display
+                    // the finishing up panel
                     CreatePanel( WixFinish.PanelID );
 
                     var finishVM = (FinishPanelViewModel) Current.PanelViewModel;
@@ -210,6 +199,8 @@ namespace Olbert.LanHistorySetupUI
                     break;
 
                 case WixFinish.PanelID:
+                    // finishing the wizard. close the UI, after first launching the app and
+                    // displaying the online help if we were requested to do so
                     var finishVM2 = (FinishPanelViewModel) Current.PanelViewModel;
 
                     if( LaunchAction == LaunchAction.Install && !_processRunning )
@@ -238,25 +229,90 @@ namespace Olbert.LanHistorySetupUI
                             Process.Start( "http://www.JumpForJoySoftware.com/Lan-History-Manager" );
                     }
 
-                    BootstrapperApp.Finish();
+                    WixApp.Dispatcher.InvokeShutdown();
+
+                    break;
+
+                default:
+                    // moving past unhandled stage; alert user about problem
+                    WixApp.Dispatcher.Invoke<int>( () => new J4JMessageBox()
+                        .Title( "Unknown Stage" )
+                        .Message( $"An unhandled stage ({Current.Stage}) was encountered." )
+                        .ButtonText( "Okay" )
+                        .ShowMessageBox() );
 
                     break;
             }
         }
 
-        /// <summary>
-        /// TODO: need to implement
-        /// </summary>
         protected override void MovePrevious()
         {
-            switch( Current.Stage.ToLower() )
+            switch (Current.Stage.ToLower())
             {
-                case WixLicense.PanelID:
+                case WixAction.PanelID:
+                    // moving back to introductory panel
+                    DisplayIntroPanel(_intro);
                     break;
 
-                case WixFinish.PanelID:
+                case WixLicense.PanelID:
+                    // moving back from the license panel. if we were launched with some
+                    // action other than install or uninstall, we need to land on the select
+                    // action panel. otherwise, go back to the intro panel, and display the
+                    // appropriate introductory text.
+                    switch( _origAction )
+                    {
+                        case LaunchAction.Install:
+                            DisplayIntroPanel( _intro );
+                            break;
+
+                        case LaunchAction.Uninstall:
+                            DisplayIntroPanel( UninstallIntroText, "uninstall" );
+                            break;
+
+
+                        default:
+                            CreatePanel( WixAction.PanelID );
+                            break;
+                    }
+
+                    break;
+
+                case WixDependencies.PanelID:
+                    // moving back from dependencies/prerequisites; display the license panel.
+                    DisplayLicensePanel();
+                    break;
+
+                // all other stages don't support moving backwards, so if we are trying to move
+                // back from one of them, something's wrong. notify the user and do nothing.
+                default:
+                    WixApp.Dispatcher.Invoke<int>(() => new J4JMessageBox()
+                        .Title("Unknown Stage")
+                        .Message($"An unhandled stage ({Current.Stage}) was encountered.")
+                        .ButtonText("Okay")
+                        .ShowMessageBox());
+
                     break;
             }
+        }
+
+        private void DisplayIntroPanel( string text, string stage = null )
+        {
+            CreatePanel( WixIntro.PanelID, stage );
+
+            ( (IntroPanelViewModel) Current.PanelViewModel ).Text = text;
+
+            var btnVM = (StandardButtonsViewModel)Current.ButtonsViewModel;
+            btnVM.PreviousViewModel.Hide();
+
+            btnVM.NextViewModel.Hide();
+            BootstrapperApp.StartDetect();
+        }
+
+        private void DisplayLicensePanel()
+        {
+            CreatePanel(WixLicense.PanelID);
+
+            ((LicensePanelViewModel)Current.PanelViewModel).Text = _license;
         }
 
         private void DisplayExecutionProgress()
@@ -277,11 +333,5 @@ namespace Olbert.LanHistorySetupUI
             }
         }
 
-        private void DisplayLicensePanel()
-        {
-            CreatePanel(WixLicense.PanelID);
-
-            ((LicensePanelViewModel)Current.PanelViewModel).Text = _license;
-        }
     }
 }
