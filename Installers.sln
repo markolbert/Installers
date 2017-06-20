@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.12
+VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LanHistoryInstaller", "LanHistoryInstaller", "{5D554511-BF89-4C6F-B72B-63150847A769}"
 EndProject
@@ -22,6 +22,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LanHistory", "..\LanHistory\LanHistory\LanHistory.csproj", "{542956F2-B122-49E9-B4F8-6129E68C9CEC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "J4JSmiling", "..\JumpForJoyPrivate\J4JSmiling\J4JSmiling.csproj", "{87EA6FFC-D5FD-482D-BD05-F49F22A4D710}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{3E2BE2E2-2C45-415C-95C4-84A0619DB27B}"
+	ProjectSection(SolutionItems) = preProject
+		license.md = license.md
+		readme.md = readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
